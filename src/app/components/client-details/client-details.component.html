@@ -4,5 +4,43 @@
       ><i class="fa fa-arrow-circle-o-left"></i> Back to dashboard
     </a>
   </div>
-  <div class="col-md-6"></div>
+  <div class="col-md-6">
+    <div class="btn-group pull-right">
+      <a routerLink="/client/edit/{{ client?.id }}" class="btn btn-warning"
+        >Edit</a
+      >
+      <button
+        (click)="onDelete()"
+        style="cursor: pointer"
+        class="btn btn-outline-danger"
+      >
+        Delete
+      </button>
+    </div>
+  </div>
 </div>
+
+<div *ngIf="client" class="card">
+  <h3 class="card-header">{{ client.firstName }} {{ client.lastName }}</h3>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-8 col-sm-6">
+        <h4>Client ID: {{ client.id }}</h4>
+      </div>
+      <div class="col-md-4 col-sm-6">
+        @TODO - Balance
+      </div>
+    </div>
+  </div>
+  <hr />
+  <ul class="list-group">
+    <li class="list-group-item">
+      <span class="font-weight-bold"><i class="fa fa-envelope-open"></i> Email:</span> {{ client.email }}
+    </li>
+    <li class="list-group-item">
+      <span class="font-weight-bold"><i class="fa fa-phone-square"></i> Phone:</span> {{ client.phone }}
+    </li>
+  </ul>
+</div>
+
+<ng-template> </ng-template>
