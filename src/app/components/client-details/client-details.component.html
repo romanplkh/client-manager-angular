@@ -6,13 +6,14 @@
   </div>
   <div class="col-md-6">
     <div class="btn-group pull-right">
-      <a routerLink="/client/edit/{{ client?.id }}" class="btn btn-warning"
+      <a routerLink="/client/edit/{{ client?.id }}" class="btn btn-outline-primary"
         >Edit</a
       >
       <button
-        (click)="onDelete()"
         style="cursor: pointer"
-        class="btn btn-outline-danger"
+        class="btn btn-outline-secondary"
+        data-toggle="modal"
+        data-target="#clientModal"
       >
         Delete
       </button>
@@ -20,7 +21,7 @@
   </div>
 </div>
 
-<div *ngIf="client" class="card">
+<div *ngIf="client" class="card mt-5">
   <h3 class="card-header">{{ client.firstName }} {{ client.lastName }}</h3>
   <div class="card-body">
     <div class="row">
@@ -28,19 +29,103 @@
         <h4>Client ID: {{ client.id }}</h4>
       </div>
       <div class="col-md-4 col-sm-6">
-        @TODO - Balance
+        <h4 class="pull-right">
+          Balance
+
+          <span
+            [ngClass]="{
+              'text-danger': hasBalance,
+              'text-success': !hasBalance
+            }"
+          >
+            {{ client?.balance | currency: 'CAD':'symbol' }}
+          </span>
+          <small>
+            <a
+              (click)="showBalanceUpdateInput = !showBalanceUpdateInput"
+              style="cursor: pointer"
+              ><i class="fa fa-pencil"></i
+            ></a>
+          </small>
+        </h4>
+        <div class="clearfix">
+          <form *ngIf="showBalanceUpdateInput" (submit)="updateBalance()">
+            <div class="input-group">
+              <input
+                type="text"
+                name="balance"
+                class="form-control"
+                [(ngModel)]="client.balance"
+                required
+              />
+              <span class="input-group-btn">
+                <button class="btn btn-primary" type="submit">Update</button>
+              </span>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
   <hr />
   <ul class="list-group">
     <li class="list-group-item">
-      <span class="font-weight-bold"><i class="fa fa-envelope-open"></i> Email:</span> {{ client.email }}
+      <span class="font-weight-bold"
+        ><i class="fa fa-envelope-open"></i> Email:</span
+      >
+      {{ client.email }}
     </li>
     <li class="list-group-item">
-      <span class="font-weight-bold"><i class="fa fa-phone-square"></i> Phone:</span> {{ client.phone }}
+      <span class="font-weight-bold"
+        ><i class="fa fa-phone-square"></i> Phone:</span
+      >
+      {{ client.phone }}
     </li>
   </ul>
 </div>
 
 <ng-template> </ng-template>
+
+<!-- Modal -->
+<div
+*ngIf="client"
+  class="modal fade"
+  id="clientModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="clientModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="clientModalLabel">Delete Client</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Are you sure that you want to delete
+          <span class="font-weight-bold">
+            {{ client?.firstName }} {{ client?.lastName }}</span
+          >?
+        </p>
+        <small class="text-danger">This cannot be undone!</small>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+        <button (click)="onDelete()" type="button" class="btn btn-danger" data-dismiss="modal">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

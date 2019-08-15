@@ -45,30 +45,55 @@ export class ClientService {
 
   async addClient(client: Client): Promise<boolean> {
     try {
-      const clientAdded = await this.clientsCollection.add(client);
-      return true;
+      await this.clientsCollection.add(client);
+      return new Promise((resolve, reject) => resolve(true));
     } catch (error) {
-      return false;
+      return new Promise((resolve, reject) => resolve(false));
     }
   }
 
   getClient(id: string): Observable<Client> {
     this.clientDoc = this.fStore.doc<Client>(`clients/${id}`);
 
-    this.client = this.clientDoc.snapshotChanges().pipe(map(
-      action => {
+    this.client = this.clientDoc.snapshotChanges().pipe(
+      map(action => {
         if (action.payload.exists === false) {
-          return null
-        }
-        else {
+          return null;
+        } else {
           const data = action.payload.data() as Client;
           const id = action.payload.id;
 
-          return {id, ...data}
+          return { id, ...data };
         }
-      }
-    ))
+      })
+    );
 
     return this.client;
+  }
+
+  async updateClient(client: Client): Promise<boolean> {
+    console.log(client);
+    try {
+      // Get the client we want to update
+      this.clientDoc = this.fStore.doc(`clients/${client.id}`);
+      // Update client
+      await this.clientDoc.update(client);
+      return new Promise((resolve, reject) => resolve(true));
+    } catch (error) {
+      return new Promise((resolve, reject) => resolve(false));
+    }
+  }
+
+  async deleteClient(client: Client): Promise<boolean> {
+    console.log(client);
+    try {
+      // Get the client we want to update
+      this.clientDoc = this.fStore.doc(`clients/${client.id}`);
+      // Update client
+      await this.clientDoc.delete();
+      return new Promise((resolve, reject) => resolve(true));
+    } catch (error) {
+      return new Promise((resolve, reject) => resolve(false));
+    }
   }
 }
