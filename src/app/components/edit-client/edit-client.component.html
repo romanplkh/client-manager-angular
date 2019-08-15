@@ -7,7 +7,7 @@
   <div class="col-md-6"></div>
 </div>
 
-<div class="card">
+<div *ngIf="client && loaded" class="card">
   <div class="card-header">Edit Client</div>
   <div class="card-body">
     <form #clientForm="ngForm" (ngSubmit)="onSubmit(clientForm)">

@@ -18,6 +18,8 @@ export class EditClientComponent implements OnInit {
     balance: '0'
   };
 
+  loaded: boolean = false;
+
   disableBalanceOnEdit = true;
 
   constructor(
@@ -31,10 +33,11 @@ export class EditClientComponent implements OnInit {
     this.activeRoute.params.subscribe((params: Params) => {
       this.clientService.getClient(params.id).subscribe({
         next: (client: Client) => {
-          if (client !== null) {
+          console.log(client)
+          if (client != null) {
             this.client = client;
-            console.log(this.client, 'from edit fetch');
-          }
+            this.loaded = true;
+          } 
         }
       });
     });
