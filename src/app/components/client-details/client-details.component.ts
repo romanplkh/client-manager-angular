@@ -30,7 +30,6 @@ export class ClientDetailsComponent implements OnInit {
           if (client !== null) {
             // convert to boolean
             this.hasBalance = parseFloat(client.balance) > 0;
-
             this.client = client;
           }
         }
