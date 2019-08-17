@@ -41,7 +41,7 @@
             {{ client?.balance | currency: 'CAD':'symbol' }}
           </span>
           <small>
-            <a
+            <a [hidden]="disableBalanceOnEdit"
               (click)="showBalanceUpdateInput = !showBalanceUpdateInput"
               style="cursor: pointer"
               ><i class="fa fa-pencil"></i

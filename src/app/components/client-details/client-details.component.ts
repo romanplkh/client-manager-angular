@@ -3,6 +3,7 @@ import { ClientService } from 'src/app/services/client.service';
 import { Client } from 'src/app/models/Client';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
+import { SettingsService } from 'src/app/services/settings.service';
 
 @Component({
   selector: 'app-client-details',
@@ -14,11 +15,13 @@ export class ClientDetailsComponent implements OnInit {
     private clientService: ClientService,
     private activeRoute: ActivatedRoute,
     private myRouter: Router,
-    private flashMsg: FlashMessagesService
+    private flashMsg: FlashMessagesService,
+    private settingsService: SettingsService
   ) {}
   client: Client;
   hasBalance: boolean;
   showBalanceUpdateInput = false;
+  disableBalanceOnEdit: boolean;
 
   ngOnInit() {
     this.activeRoute.params.subscribe((params: Params) => {
@@ -33,6 +36,8 @@ export class ClientDetailsComponent implements OnInit {
         }
       });
     });
+
+    this.disableBalanceOnEdit = this.settingsService.getSettings().disableBalanceOnEdit;
   }
 
   updateBalance() {
@@ -60,13 +65,13 @@ export class ClientDetailsComponent implements OnInit {
         });
 
         setTimeout(() => {
-          this.myRouter.navigate(['/'])
+          this.myRouter.navigate(['/']);
         }, 2000);
       } else {
-         this.flashMsg.show('Oops. Something went wrong. Try again', {
-           cssClass: 'alert-warning',
-           timeout: 2500
-         });
+        this.flashMsg.show('Oops. Something went wrong. Try again', {
+          cssClass: 'alert-warning',
+          timeout: 2500
+        });
       }
     });
   }

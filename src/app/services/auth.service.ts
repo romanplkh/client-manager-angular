@@ -19,10 +19,9 @@ export class AuthService {
 
   logOut() {
     return this.authFire.auth.signOut();
-
   }
 
-  isLoggedIn() {
-    return this.authFire.authState.pipe(map(state => state));
+  isLoggedIn(): Observable<firebase.User | null> {
+    return this.authFire.authState;
   }
 }

@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-6">
-    <a routerLink="/client/{{client?.id}}" class="btn btn-link">
+    <a routerLink="/client/{{ client?.id }}" class="btn btn-link">
       <i class="fa fa-arrow-circle-o-left"></i> Back to Client
     </a>
   </div>
@@ -89,7 +89,7 @@
           Email should be valid
         </div>
       </div>
-       <div class="form-group">
+      <div class="form-group">
         <label for="phone">Phone</label>
         <input
           type="text"
@@ -104,20 +104,14 @@
             'is-invalid': clientPhone.errors && clientPhone.touched
           }"
         />
-        <div
-          [hidden]="!clientPhone.errors?.required"
-          class="invalid-feedback"
-        >
+        <div [hidden]="!clientPhone.errors?.required" class="invalid-feedback">
           Phone is required
         </div>
-        <div
-          [hidden]="!clientPhone.errors?.pattern"
-          class="invalid-feedback"
-        >
+        <div [hidden]="!clientPhone.errors?.pattern" class="invalid-feedback">
           Phone should have the following format: 123-456-7890
         </div>
       </div>
-       <div class="form-group">
+      <div class="form-group">
         <label for="balance">Balance</label>
         <input
           type="number"
@@ -126,10 +120,22 @@
           class="form-control"
           #clientBalance="ngModel"
           [(ngModel)]="client.balance"
-          [disabled]="disableBalanceOnAdd" />
-
+          [disabled]="disableBalanceOnEdit"
+         pattern="^[-]{0}[\d+]{1,}$"
+          [ngClass]="{
+            'is-invalid': clientBalance.errors && clientBalance.touched
+          }"
+        />
+        <div [hidden]="!clientBalance.errors?.pattern" class="invalid-feedback">
+          Balance should be 0 or greater
+        </div>
       </div>
-      <input type="submit" class="btn btn-outline-warning btn-block" style="cursor: pointer" value="Update">
+      <input
+        type="submit"
+        class="btn btn-outline-warning btn-block"
+        style="cursor: pointer"
+        value="Update"
+      />
     </form>
   </div>
 </div>
