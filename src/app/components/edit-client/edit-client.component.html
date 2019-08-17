@@ -114,20 +114,20 @@
       <div class="form-group">
         <label for="balance">Balance</label>
         <input
-          type="number"
+          type="text"
           name="balance"
           id="balance"
           class="form-control"
           #clientBalance="ngModel"
           [(ngModel)]="client.balance"
           [disabled]="disableBalanceOnEdit"
-         pattern="^[-]{0}[\d+]{1,}$"
           [ngClass]="{
             'is-invalid': clientBalance.errors && clientBalance.touched
           }"
+          pattern="^[0-9.]+$$"
         />
         <div [hidden]="!clientBalance.errors?.pattern" class="invalid-feedback">
-          Balance should be 0 or greater
+          Balance is not valid
         </div>
       </div>
       <input

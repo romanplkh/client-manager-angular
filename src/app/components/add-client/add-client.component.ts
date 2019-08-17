@@ -16,7 +16,7 @@ export class AddClientComponent implements OnInit {
     lastName: '',
     email: '',
     phone: '',
-    balance: '0'
+    balance: '0.00'
   };
 
   @ViewChild('clientForm', { static: false }) form;
@@ -36,7 +36,7 @@ export class AddClientComponent implements OnInit {
   onSubmit(formClient) {
     const { value, valid }: { value: Client; valid: Boolean } = formClient;
     if (this.disableBalanceOnAdd) {
-      value.balance = '0';
+      value.balance = '0.00';
     }
 
     if (!valid) {
